@@ -9,23 +9,57 @@ package card;
  * and then asks the user to pick a card and searches the array of cards
  * for the match to the user's card. To be used as starting code in ICE 1
  * @author srinivsi
+ *@modifier Devanshi Sharma
+ * student id: 991711768
+ * 30 May 2023
  */
+import java.util.Scanner;
 public class CardTrick {
-    
-    public static void main(String[] args)
-    {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
         Card[] magicHand = new Card[7];
         
-        for (int i=0; i<magicHand.length; i++)
+        for(int i=0; i<magicHand.length; i++)
         {
             Card c = new Card();
-            //c.setValue(insert call to random number generator here)
-            //c.setSuit(Card.SUITS[insert call to random number between 0-3 here])
+            c.setValue(generateRandomNumber());
+            c.setSuit(Card.SUITS[generateRandomNumber(0, 3)]);
+            magicHand[i] = c;
         }
-        
-        //insert code to ask the user for Card value and suit, create their card
-        // and search magicHand here
-        //Then report the result here
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the value of your card: ");
+        int value = scanner.nextInt();
+        System.out.print("Enter the suit of your card (0-3 where 0 = Hearts, 1 = Diamonds, 2 = Clubs, 3 = Spades): ");
+        int suit = scanner.nextInt();
+
+        Card userCard = new Card();
+        userCard.setValue(value);
+        userCard.setSuit(Card.SUITS[suit]);
+
+        boolean found = false;
+        for(Card card : magicHand) {
+            if(card.getValue() == userCard.getValue() && card.getSuit().equals(userCard.getSuit())) {
+                found = true;
+                break;
+            }
+        }
+
+        if(found) {
+            System.out.println("hurrah! Your card is in the magic hand.");
+        } else {
+            System.out.println("Alas! Your card is not in the magic hand.");
+        }
     }
-    
+
+    private static int generateRandomNumber() {
+        return (int) (Math.random() * 13 + 1);
+    }
+
+    private static int generateRandomNumber(int min, int max) {
+        return (int) (Math.random() * (max - min + 1) + min);
+    }
 }
